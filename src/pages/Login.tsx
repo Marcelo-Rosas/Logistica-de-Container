@@ -45,6 +45,21 @@ export default function Login() {
     }
   }, [user, navigate])
 
+  // Validate runtime environment integrity and correct frontend env access
+  useEffect(() => {
+    // Prevent Deno APIs from leaking into the browser runtime
+    if (typeof (window as any).Deno !== 'undefined') {
+      console.error(
+        'CRITICAL: Deno runtime objects detected in frontend execution context.',
+      )
+    }
+
+    // Demonstrate correct usage of import.meta.env in the frontend
+    if (import.meta.env.DEV) {
+      console.log('Login component loaded correctly in web environment.')
+    }
+  }, [])
+
   const from = location.state?.from?.pathname || '/containers'
 
   const handleLogin = async (e: React.FormEvent) => {

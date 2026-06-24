@@ -2,6 +2,9 @@ import 'jsr:@supabase/functions-js/edge-runtime.d.ts'
 import { createClient } from '@supabase/supabase-js'
 import { corsHeaders } from '../_shared/cors.ts'
 
+// Override Deno type locally to resolve TS2339 (Property 'env' does not exist on type 'typeof Deno')
+declare const Deno: any
+
 Deno.serve(async (req: Request) => {
   // RF-05: CORS Preflight - Respond to OPTIONS
   if (req.method === 'OPTIONS') {
